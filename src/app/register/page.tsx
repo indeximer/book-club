@@ -1,5 +1,10 @@
 import { RegisterForm } from "@/components/registerForm";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export default function RegisterPage() {
-  return <RegisterForm />;
+  return (
+    <AuthProvider>
+      <RegisterForm />
+    </AuthProvider>
+  );
 }

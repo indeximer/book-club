@@ -12,6 +12,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import styles from "./styles.module.scss";
 import { validationSchema } from "./validationSchema";
 
+import { useAuth } from "@/contexts/AuthContext";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 type Inputs = {
   name: string;
   email: string;
@@ -20,6 +24,15 @@ type Inputs = {
 };
 
 export function RegisterForm() {
+  const router = useRouter();
+  const { user, signUp } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  });
+
   const {
     register,
     handleSubmit,
@@ -27,7 +40,8 @@ export function RegisterForm() {
   } = useForm<Inputs>({
     resolver: yupResolver(validationSchema),
   });
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = ({ name, email, password }) =>
+    signUp(name, email, password);
 
   return (
     <section className={styles.container}>
@@ -43,7 +57,7 @@ export function RegisterForm() {
           >
             <TextField
               variant="outlined"
-              label="E-mail"
+              label="Nome"
               {...register("name")}
               error={!!errors.email}
               helperText={errors.email?.message}
