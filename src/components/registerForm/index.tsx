@@ -13,8 +13,6 @@ import styles from "./styles.module.scss";
 import { validationSchema } from "./validationSchema";
 
 import { useAuth } from "@/contexts/AuthContext";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 type Inputs = {
   name: string;
@@ -24,14 +22,7 @@ type Inputs = {
 };
 
 export function RegisterForm() {
-  const router = useRouter();
-  const { user, signUp } = useAuth();
-
-  useEffect(() => {
-    if (user) {
-      router.push("/");
-    }
-  });
+  const { signUp } = useAuth();
 
   const {
     register,

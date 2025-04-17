@@ -12,12 +12,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import styles from "./styles.module.scss";
 import { validationSchema } from "./validationSchema";
 
+import { useAuth } from "@/contexts/AuthContext";
+
 type Inputs = {
   email: string;
   password: string;
 };
 
 export function LoginForm() {
+  const { signIn } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -25,7 +29,8 @@ export function LoginForm() {
   } = useForm<Inputs>({
     resolver: yupResolver(validationSchema),
   });
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = ({ email, password }) =>
+    signIn(email, password);
 
   return (
     <section className={styles.container}>

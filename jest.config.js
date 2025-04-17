@@ -9,6 +9,7 @@ const config = {
   coverageDirectory: "coverage",
   coverageProvider: "v8",
   testEnvironment: "jsdom",
+  setupFilesAfterEnv: ["<rootDir>/support/setupTests.js"],
 };
 
 export default createJestConfig(config);

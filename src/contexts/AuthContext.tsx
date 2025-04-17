@@ -15,6 +15,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "@/config/firebase";
+import { useLoader } from "./LoaderContext";
 
 type AuthProps = {
   user: {} | null;
@@ -33,6 +34,7 @@ const AuthContext = createContext<AuthProps>({
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<any>(null);
   const router = useRouter();
+  const { setLoading } = useLoader();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -41,21 +43,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, []);
 
-  const signIn = (email: string, password: string) => {
-    return signInWithEmailAndPassword(auth, email, password);
+  const signIn = async (email: string, password: string) => {
+    setLoading(true);
+    await signInWithEmailAndPassword(auth, email, password);
+    setLoading(false);
+    router.push("/");
   };
 
-  const logOut = () => {
-    return signOut(auth);
+  const logOut = async () => {
+    setLoading(true);
+    await signOut(auth);
+    setLoading(false);
+    router.push("/");
   };
 
   const signUp = async (name: string, email: string, password: string) => {
-    const userResponse = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    console.log(user);
+    await createUserWithEmailAndPassword(auth, email, password);
+
     updateProfile(auth.currentUser!, {
       displayName: name,
     });

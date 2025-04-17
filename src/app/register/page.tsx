@@ -1,10 +1,19 @@
+"use client";
+
+import { useAuth } from "@/contexts/AuthContext";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { RegisterForm } from "@/components/registerForm";
-import { AuthProvider } from "@/contexts/AuthContext";
 
 export default function RegisterPage() {
-  return (
-    <AuthProvider>
-      <RegisterForm />
-    </AuthProvider>
-  );
+  const router = useRouter();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  });
+
+  return <RegisterForm />;
 }

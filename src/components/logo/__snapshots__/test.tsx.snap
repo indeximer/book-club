@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Logo /> should match snapshot 1`] = `
+<div>
+  <a
+    class="MuiTypography-root MuiTypography-h6 MuiTypography-noWrap css-4quli5-MuiTypography-root"
+    href="/"
+  >
+    <strong>
+      Book
+    </strong>
+    Club
+  </a>
+</div>
+`;
