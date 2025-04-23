@@ -1,7 +1,7 @@
 import { object, string, ref } from "yup";
 
 export const validationSchema = object({
-  name: string().required(),
+  name: string().required("Nome é obrigatório"),
   email: string()
     .email("Você deve informar um e-mail válido")
     .required("E-mail é obrigatório"),
@@ -10,5 +10,5 @@ export const validationSchema = object({
     .required("Senha é obrigatória"),
   confirmPassword: string()
     .oneOf([ref("password")], "As senhas não coincidem")
-    .required("Repita a Senha é obrigatória"),
+    .required("Confirmar Senha é obrigatório"),
 });

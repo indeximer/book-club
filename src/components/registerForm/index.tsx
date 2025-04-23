@@ -39,7 +39,7 @@ export function RegisterForm() {
       <Card sx={{ minWidth: 300, width: 400 }}>
         <CardContent>
           <Typography variant="h5" component="h1" gutterBottom>
-            Registre-se
+            Crie sua conta
           </Typography>
 
           <form
@@ -51,7 +51,7 @@ export function RegisterForm() {
               label="Nome"
               {...register("name")}
               error={!!errors.email}
-              helperText={errors.email?.message}
+              helperText={errors.name?.message}
               sx={{ mb: 1.5 }}
             />
             <TextField
@@ -74,14 +74,14 @@ export function RegisterForm() {
             <TextField
               type="password"
               variant="outlined"
-              label="Repita a Senha"
+              label="Confirmar Senha"
               {...register("confirmPassword")}
               error={!!errors.confirmPassword}
               helperText={errors.confirmPassword?.message}
               sx={{ mb: 1.5 }}
             />
             <Button variant="contained" type="submit">
-              Login
+              Cadastrar
             </Button>
           </form>
         </CardContent>

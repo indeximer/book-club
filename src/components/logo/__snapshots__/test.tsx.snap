@@ -6,10 +6,7 @@ exports[`<Logo /> should match snapshot 1`] = `
     class="MuiTypography-root MuiTypography-h6 MuiTypography-noWrap css-4quli5-MuiTypography-root"
     href="/"
   >
-    <strong>
-      Book
-    </strong>
-    Club
+    BookClub
   </a>
 </div>
 `;

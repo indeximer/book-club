@@ -29,8 +29,8 @@ export function LoginForm() {
   } = useForm<Inputs>({
     resolver: yupResolver(validationSchema),
   });
-  const onSubmit: SubmitHandler<Inputs> = ({ email, password }) =>
-    signIn(email, password);
+  const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) =>
+    await signIn(email, password);
 
   return (
     <section className={styles.container}>

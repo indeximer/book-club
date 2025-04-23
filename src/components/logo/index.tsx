@@ -17,7 +17,7 @@ export function Logo() {
           textDecoration: "none",
         }}
       >
-        <strong>Book</strong>Club
+        BookClub
       </Typography>
     </div>
   );
