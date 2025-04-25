@@ -14,11 +14,11 @@ import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 
 import { auth } from "@/config/firebase";
-import { getBooks } from "@/services/books";
-import { Book } from "@/utils/interfaces/book";
+import { getPublishers } from "@/services/publishers";
+import { Publisher } from "@/utils/interfaces/publisher";
 
 export default function DashboardPage() {
-  const [books, setBooks] = useState<Book[]>([]);
+  const [publishers, setPublishers] = useState<Publisher[]>([]);
 
   const router = useRouter();
 
@@ -29,25 +29,25 @@ export default function DashboardPage() {
       }
     });
 
-    const fetchBooks = async () => {
-      const booksResponse = await getBooks();
-      setBooks(booksResponse);
+    const fetchPublishers = async () => {
+      const publishersResponse = await getPublishers();
+      setPublishers(publishersResponse);
     };
 
-    fetchBooks();
+    fetchPublishers();
 
     return () => unsubscribe();
-  }, [setBooks]);
+  }, [setPublishers]);
 
   return (
     <Grid container rowSpacing={3} columnSpacing={3}>
       <Grid size={10}>
         <Typography variant="h4" component="h2" gutterBottom>
-          Livros
+          Editoras
         </Typography>
       </Grid>
       <Grid size={2}>
-        <Link href="/admin/books/create">
+        <Link href="/admin/publishers/create">
           <Button variant="contained" size="large" sx={{ width: "100%" }}>
             Adicionar
           </Button>
@@ -58,24 +58,18 @@ export default function DashboardPage() {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Título</TableCell>
-                <TableCell align="right">Autor</TableCell>
-                <TableCell align="right">Editora</TableCell>
-                <TableCell align="right">Gênero</TableCell>
+                <TableCell>Nome</TableCell>
                 <TableCell align="right">Ações</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {books.map((book) => (
-                <TableRow key={book.id}>
+              {publishers.map((publisher) => (
+                <TableRow key={publisher.id}>
                   <TableCell component="th" scope="row">
-                    {book.title}
+                    {publisher.name}
                   </TableCell>
-                  <TableCell align="right">{book.authors.join(", ")}</TableCell>
-                  <TableCell align="right">{book.publisher}</TableCell>
-                  <TableCell align="right">{book.genres.join(", ")}</TableCell>
                   <TableCell align="right">
-                    <Link href={`/admin/books/${book.id}`}>Editar</Link>
+                    <Link href={`/admin/books/${publisher.id}`}>Editar</Link>
                   </TableCell>
                 </TableRow>
               ))}

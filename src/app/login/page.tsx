@@ -10,6 +10,7 @@ export default function LoginPage() {
   const { user } = useAuth();
 
   useEffect(() => {
+    console.log("user", user);
     if (user) {
       router.push("/");
     }
