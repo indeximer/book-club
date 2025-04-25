@@ -18,7 +18,7 @@ describe("<PublisherForm />", () => {
   it("should show error message when name is empty", async () => {
     render(<PublisherForm />);
 
-    const submitButton = screen.getByRole("button", { name: /Adicionar/i });
+    const submitButton = screen.getByRole("button", { name: /Salvar/i });
     userEvent.click(submitButton);
 
     await waitFor(() => {

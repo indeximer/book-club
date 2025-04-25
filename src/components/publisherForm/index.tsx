@@ -7,15 +7,20 @@ import { validationSchema } from "./validationSchema";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import slugify from "slugify";
-import { createPublisher } from "@/services/publishers";
+import { createPublisher, updatePublisher } from "@/services/publishers";
 import { useLoader } from "@/contexts/LoaderContext";
+import { Publisher } from "@/utils/interfaces/publisher";
 
 type Inputs = {
   name: string;
   slug: string;
 };
 
-export function PublisherForm() {
+type PublisherFormProps = {
+  publisher?: Publisher | null;
+};
+
+export function PublisherForm({ publisher = null }: PublisherFormProps) {
   const router = useRouter();
 
   const {
@@ -39,6 +44,13 @@ export function PublisherForm() {
 
   const onSubmit: SubmitHandler<Inputs> = async ({ name, slug }) => {
     setLoading(true);
+    if (publisher?.id) {
+      await updatePublisher(publisher.id, { name, slug });
+      setLoading(false);
+      router.push("/admin/publishers");
+      return;
+    }
+
     await createPublisher({ name, slug });
     setLoading(false);
     router.push("/admin/publishers");
@@ -54,6 +66,8 @@ export function PublisherForm() {
       >
         <Grid size={6}>
           <TextField
+            defaultValue={publisher?.name ? publisher.name : ""}
+            focused={!!publisher?.name}
             variant="outlined"
             label="Nome"
             {...register("name")}
@@ -64,6 +78,7 @@ export function PublisherForm() {
         </Grid>
         <Grid size={6}>
           <TextField
+            value={publisher?.slug || ""}
             variant="outlined"
             label="Slug"
             {...register("slug")}
@@ -75,7 +90,7 @@ export function PublisherForm() {
         </Grid>
         <Grid size={4}>
           <Button variant="contained" type="submit" size="large" fullWidth>
-            Adicionar
+            Salvar
           </Button>
         </Grid>
       </Grid>
