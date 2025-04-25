@@ -1,17 +1,17 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { PublisherForm } from "@/components/publisherForm";
 import { Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getPublisherById } from "@/services/publishers";
 import { useLoader } from "@/contexts/LoaderContext";
-import { Publisher } from "@/utils/interfaces/publisher";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/config/firebase";
+import { Author } from "@/utils/interfaces/author";
+import { getAuthorById } from "@/services/authors";
+import { AuthorForm } from "@/components/authorForm";
 
-export default function EditPublisherPage() {
-  const [publisher, setPublisher] = useState<Publisher | null>(null);
+export default function EditAuthorPage() {
+  const [author, setAuthor] = useState<Author | null>(null);
   const { setLoading } = useLoader();
   const { id } = useParams();
   const router = useRouter();
@@ -23,28 +23,28 @@ export default function EditPublisherPage() {
       }
     });
 
-    const fetchPublisher = async () => {
+    const fetchAuthor = async () => {
       setLoading(true);
-      const publisherResponse = await getPublisherById(id as string);
-      setPublisher(publisherResponse);
+      const authorResponse = await getAuthorById(id as string);
+      setAuthor(authorResponse);
       setLoading(false);
     };
 
-    fetchPublisher();
+    fetchAuthor();
 
     return () => unsubscribe();
-  }, [id, setLoading]);
+  }, [id, setLoading, setAuthor]);
 
   return (
     <>
       <Grid container rowSpacing={3} columnSpacing={3}>
         <Grid size={12}>
           <Typography variant="h4" component="h2" gutterBottom>
-            Editar Editora
+            Editar Autor
           </Typography>
         </Grid>
       </Grid>
-      <PublisherForm publisher={publisher} />
+      <AuthorForm author={author} />
     </>
   );
 }

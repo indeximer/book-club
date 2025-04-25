@@ -1,13 +1,13 @@
 "use client";
 
-import { PublisherForm } from "@/components/publisherForm";
 import { auth } from "@/config/firebase";
 import { Grid, Typography } from "@mui/material";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { AuthorForm } from "@/components/authorForm";
 
-export default function CreatePublisherPage() {
+export default function CreateAuthorPage() {
   const router = useRouter();
 
   useEffect(() => {
@@ -25,11 +25,11 @@ export default function CreatePublisherPage() {
       <Grid container rowSpacing={3} columnSpacing={3}>
         <Grid size={12}>
           <Typography variant="h4" component="h2" gutterBottom>
-            Adicionar Editora
+            Adicionar Autor
           </Typography>
         </Grid>
       </Grid>
-      <PublisherForm />
+      <AuthorForm />
     </>
   );
 }

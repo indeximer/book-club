@@ -16,16 +16,14 @@ import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 
 import { auth } from "@/config/firebase";
-import { deletePublisher, getPublishers } from "@/services/publishers";
 import { useLoader } from "@/contexts/LoaderContext";
-import { Publisher } from "@/utils/interfaces/publisher";
+import { Author } from "@/utils/interfaces/author";
 import { ConfirmationModal } from "@/components/confirmationModal";
+import { deleteAuthor, getAuthors } from "@/services/authors";
 
-export default function PublisherListPage() {
-  const [publishers, setPublishers] = useState<Publisher[]>([]);
-  const [selectedPublisher, setSelectedPublisher] = useState<Publisher | null>(
-    null
-  );
+export default function AuthorListPage() {
+  const [authors, setAuthors] = useState<Author[]>([]);
+  const [selectedAuthor, setSelectedAuthor] = useState<Author | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { setLoading } = useLoader();
@@ -40,28 +38,28 @@ export default function PublisherListPage() {
     });
 
     const fetchPublishers = async () => {
-      const publishersResponse = await getPublishers();
-      setPublishers(publishersResponse);
+      const authorsResponse = await getAuthors();
+      setAuthors(authorsResponse);
     };
 
     fetchPublishers();
 
     return () => unsubscribe();
-  }, [setPublishers]);
+  }, [setAuthors]);
 
-  const handleDeletePublisher = (publisher: Publisher) => {
-    setSelectedPublisher(publisher);
+  const handleDeleteAuthor = (author: Author) => {
+    setSelectedAuthor(author);
     setIsModalOpen(true);
   };
 
   const handleConfirmDelete = async () => {
-    if (selectedPublisher) {
+    if (selectedAuthor) {
       setLoading(true);
-      await deletePublisher(selectedPublisher.id as string);
-      const updatedPublishers = publishers.filter(
-        (publisher) => publisher.id !== selectedPublisher.id
+      await deleteAuthor(selectedAuthor.id as string);
+      const updatedAuthors = authors.filter(
+        (author: Author) => author.id !== selectedAuthor.id
       );
-      setPublishers(updatedPublishers);
+      setAuthors(updatedAuthors);
       setLoading(false);
       setIsModalOpen(false);
     }
@@ -72,11 +70,11 @@ export default function PublisherListPage() {
       <Grid container rowSpacing={3} columnSpacing={3}>
         <Grid size={10}>
           <Typography variant="h4" component="h2" gutterBottom>
-            Editoras
+            Autores
           </Typography>
         </Grid>
         <Grid size={2}>
-          <Link href="/admin/publishers/create">
+          <Link href="/admin/authors/create">
             <Button variant="contained" size="large" sx={{ width: "100%" }}>
               Adicionar
             </Button>
@@ -92,19 +90,19 @@ export default function PublisherListPage() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {publishers.map((publisher) => (
-                  <TableRow key={publisher.id}>
+                {authors.map((author) => (
+                  <TableRow key={author.id}>
                     <TableCell component="th" scope="row">
-                      {publisher.name}
+                      {author.name}
                     </TableCell>
                     <TableCell align="right">
                       <IconButton
                         color="error"
-                        onClick={() => handleDeletePublisher(publisher)}
+                        onClick={() => handleDeleteAuthor(author)}
                       >
                         <DeleteForeverIcon />
                       </IconButton>
-                      <Link href={`/admin/publishers/${publisher.id}`}>
+                      <Link href={`/admin/authors/${author.id}`}>
                         <IconButton>
                           <EditIcon />
                         </IconButton>
@@ -121,7 +119,7 @@ export default function PublisherListPage() {
         isOpen={isModalOpen}
         onConfirm={handleConfirmDelete}
         onClose={() => setIsModalOpen(false)}
-        title={`Excluir Editora: ${selectedPublisher?.name}`}
+        title={`Excluir Editora: ${selectedAuthor?.name}`}
       />
     </>
   );
