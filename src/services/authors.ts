@@ -47,11 +47,11 @@ export async function createAuthor(author: Author) {
 }
 
 export async function updateAuthor(id: string, author: Author) {
-  await setDoc(doc(db, "author", id), {
+  await setDoc(doc(db, "authors", id), {
     ...author,
   });
 }
 
 export async function deleteAuthor(id: string) {
-  await deleteDoc(doc(db, "author", id));
+  await deleteDoc(doc(db, "authors", id));
 }

@@ -1,4 +1,13 @@
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  addDoc,
+  deleteDoc,
+  setDoc,
+} from "firebase/firestore";
 import { app } from "@/config/firebase";
 import { getAuth } from "firebase/auth";
 import { Book } from "@/utils/interfaces/book";
@@ -19,4 +28,30 @@ export function getBooks() {
     );
     return books;
   });
+}
+
+export async function getBookById(id: string) {
+  const bookRef = doc(db, "books", id);
+  const bookSnap = await getDoc(bookRef);
+  if (bookSnap.exists()) {
+    return { id: bookSnap.id, ...bookSnap.data() } as Book;
+  } else {
+    throw new Error("Book not found");
+  }
+}
+
+export async function createBook(book: Book) {
+  await addDoc(collection(db, "books"), {
+    ...book,
+  });
+}
+
+export async function updateBook(id: string, book: Book) {
+  await setDoc(doc(db, "books", id), {
+    ...book,
+  });
+}
+
+export async function deleteBook(id: string) {
+  await deleteDoc(doc(db, "books", id));
 }

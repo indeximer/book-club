@@ -17,7 +17,7 @@ import { auth } from "@/config/firebase";
 import { getBooks } from "@/services/books";
 import { Book } from "@/utils/interfaces/book";
 
-export default function DashboardPage() {
+export default function DashboardBookPage() {
   const [books, setBooks] = useState<Book[]>([]);
 
   const router = useRouter();
