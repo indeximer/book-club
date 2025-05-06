@@ -46,23 +46,23 @@ export function BookForm({ book = null }: BookFormProps) {
 
   const { setLoading } = useLoader();
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    const authorsData = await getAuthors();
-    const genresData = await getGenres();
-    const publishersData = await getPublishers();
-
-    const authors = authorsData.map((author) => author.name);
-    const genres = genresData.map((genre) => genre.name);
-    const publishers = publishersData.map((publisher) => publisher.name);
-
-    setAuthorsOptions(authors);
-    setGenresOptions(genres);
-    setPublishersOptions(publishers);
-    setLoading(false);
-  }, []);
-
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const authorsData = await getAuthors();
+      const genresData = await getGenres();
+      const publishersData = await getPublishers();
+
+      const authors = authorsData.map((author) => author.name);
+      const genres = genresData.map((genre) => genre.name);
+      const publishers = publishersData.map((publisher) => publisher.name);
+
+      setAuthorsOptions(authors);
+      setGenresOptions(genres);
+      setPublishersOptions(publishers);
+      setLoading(false);
+    };
+
     fetchData();
   }, []);
 
@@ -103,7 +103,7 @@ export function BookForm({ book = null }: BookFormProps) {
         abstract,
       });
       setLoading(false);
-      router.push("/admin/authors");
+      router.push("/admin/books");
       return;
     }
 
@@ -176,7 +176,7 @@ export function BookForm({ book = null }: BookFormProps) {
               <Autocomplete
                 options={publishersOptions}
                 getOptionLabel={(option) => option}
-                defaultValue={book?.publisher || ""}
+                value={book?.publisher || ""}
                 onChange={(_, data) => {
                   onChange(data);
                 }}
@@ -205,7 +205,7 @@ export function BookForm({ book = null }: BookFormProps) {
                 multiple
                 options={authorsOptions}
                 getOptionLabel={(option) => option}
-                defaultValue={book?.authors || []}
+                value={book?.authors || []}
                 onChange={(_, data) => {
                   onChange(data);
                 }}
@@ -234,7 +234,7 @@ export function BookForm({ book = null }: BookFormProps) {
                 multiple
                 options={genresOptions}
                 getOptionLabel={(option) => option}
-                defaultValue={book?.genres || []}
+                value={book?.genres || []}
                 onChange={(_, data) => {
                   onChange(data);
                 }}

@@ -47,8 +47,8 @@ export default function GenreListPage() {
     return () => unsubscribe();
   }, [setGenres]);
 
-  const handleDeleteGenre = (author: Genre) => {
-    setSelectedGenre(author);
+  const handleDeleteGenre = (genre: Genre) => {
+    setSelectedGenre(genre);
     setIsModalOpen(true);
   };
 
