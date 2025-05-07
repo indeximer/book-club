@@ -7,6 +7,9 @@ import {
   addDoc,
   deleteDoc,
   setDoc,
+  query,
+  orderBy,
+  limit,
 } from "firebase/firestore";
 import { app } from "@/config/firebase";
 import { getAuth } from "firebase/auth";
@@ -19,6 +22,23 @@ export function getBooks() {
   const booksRef = collection(db, "books");
 
   return getDocs(booksRef).then((snapshot) => {
+    const books = snapshot.docs.map(
+      (doc) =>
+        ({
+          id: doc.id,
+          ...doc.data(),
+        } as Book)
+    );
+    return books;
+  });
+}
+
+export function getRecentBooks() {
+  const booksRef = collection(db, "books");
+
+  const q = query(booksRef, orderBy("title", "desc"), limit(4));
+
+  return getDocs(q).then((snapshot) => {
     const books = snapshot.docs.map(
       (doc) =>
         ({

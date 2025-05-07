@@ -1,0 +1,15 @@
+.heading {
+  position: relative;
+  padding-bottom: 10px;
+
+  &:before {
+    content: "";
+    display: block;
+    width: 100px;
+    height: 0;
+    border-bottom: solid 4px #000;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+}
