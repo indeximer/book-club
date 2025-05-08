@@ -10,10 +10,11 @@ import {
   query,
   orderBy,
   limit,
+  where,
 } from "firebase/firestore";
 import { app } from "@/config/firebase";
 import { getAuth } from "firebase/auth";
-import { Book } from "@/utils/interfaces/book";
+import { Book, BookRate } from "@/utils/interfaces/book";
 
 getAuth(app);
 const db = getFirestore(app);
@@ -50,6 +51,40 @@ export function getRecentBooks() {
   });
 }
 
+export function getBookBySlug(slug: string) {
+  const booksRef = collection(db, "books");
+
+  const q = query(booksRef, where("slug", "==", slug));
+
+  return getDocs(q).then((snapshot) => {
+    const books = snapshot.docs.map(
+      (doc) =>
+        ({
+          id: doc.id,
+          ...doc.data(),
+        } as Book)
+    );
+    return books;
+  });
+}
+
+export function getBookRatingByBookId(bookId: string) {
+  const ratingsRef = collection(db, "ratings");
+
+  const q = query(ratingsRef, where("book_id", "==", bookId));
+
+  return getDocs(q).then((snapshot) => {
+    const ratings = snapshot.docs.map(
+      (doc) =>
+        ({
+          id: doc.id,
+          ...doc.data(),
+        } as BookRate)
+    );
+    return ratings;
+  });
+}
+
 export async function getBookById(id: string) {
   const bookRef = doc(db, "books", id);
   const bookSnap = await getDoc(bookRef);
@@ -63,6 +98,12 @@ export async function getBookById(id: string) {
 export async function createBook(book: Book) {
   await addDoc(collection(db, "books"), {
     ...book,
+  });
+}
+
+export async function setBookRate(bookRate: BookRate) {
+  await addDoc(collection(db, "ratings"), {
+    ...bookRate,
   });
 }
 

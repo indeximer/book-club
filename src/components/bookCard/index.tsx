@@ -11,7 +11,9 @@ export function BookCard({ title, imgSrc }: BookCardProps) {
     <Card>
       <CardMedia component="img" alt={title} image={imgSrc} />
       <CardContent>
-        <Typography variant="body2">{title}</Typography>
+        <Typography variant="body2" component="h3">
+          {title}
+        </Typography>
       </CardContent>
     </Card>
   );

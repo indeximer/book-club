@@ -30,7 +30,7 @@ export default async function Home() {
           {recentBooks &&
             recentBooks.map((book) => (
               <Grid size={3} key={book.id}>
-                <Link href={`/books/${book.slug}`}>
+                <Link href={`/book/${book.slug}`}>
                   <BookCard title={book.title} imgSrc={book.cover} />
                 </Link>
               </Grid>

@@ -8,3 +8,9 @@ export interface Book {
   abstract: string;
   cover: string;
 }
+
+export interface BookRate {
+  id?: string;
+  book_id: string;
+  rate: number;
+}
