@@ -13,7 +13,9 @@ import {
   signOut,
   createUserWithEmailAndPassword,
   updateProfile,
+  User,
 } from "firebase/auth";
+
 import { auth } from "@/config/firebase";
 import { useLoader } from "./LoaderContext";
 
@@ -32,7 +34,7 @@ const AuthContext = createContext<AuthProps>({
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
   const { setLoading } = useLoader();
 

@@ -14,7 +14,7 @@ import {
 } from "firebase/firestore";
 import { app } from "@/config/firebase";
 import { getAuth } from "firebase/auth";
-import { Book, BookRate } from "@/utils/interfaces/book";
+import { Book, BookComment, BookRate } from "@/utils/interfaces/book";
 
 getAuth(app);
 const db = getFirestore(app);
@@ -85,6 +85,23 @@ export function getBookRatingByBookId(bookId: string) {
   });
 }
 
+export function getBookCommentsByBookId(bookId: string) {
+  const commentsRef = collection(db, "comments");
+
+  const q = query(commentsRef, where("book_id", "==", bookId));
+
+  return getDocs(q).then((snapshot) => {
+    const comments = snapshot.docs.map(
+      (doc) =>
+        ({
+          id: doc.id,
+          ...doc.data(),
+        } as BookComment)
+    );
+    return comments;
+  });
+}
+
 export async function getBookById(id: string) {
   const bookRef = doc(db, "books", id);
   const bookSnap = await getDoc(bookRef);
@@ -104,6 +121,12 @@ export async function createBook(book: Book) {
 export async function setBookRate(bookRate: BookRate) {
   await addDoc(collection(db, "ratings"), {
     ...bookRate,
+  });
+}
+
+export async function setBookComment(bookComment: BookComment) {
+  await addDoc(collection(db, "comments"), {
+    ...bookComment,
   });
 }
 

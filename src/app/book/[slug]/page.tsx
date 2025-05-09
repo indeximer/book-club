@@ -4,6 +4,8 @@ import { Section } from "@/components/section";
 import { getBookBySlug } from "@/services/books";
 import { Book } from "@/utils/interfaces/book";
 import { Grid } from "@mui/material";
+import { BookAbstract } from "@/components/bookAbstract";
+import { BookComments } from "@/components/bookComments";
 
 async function fetchBook(slug: string) {
   const Books: Book[] = await getBookBySlug(slug);
@@ -24,6 +26,10 @@ export default async function BookPage({
         <Grid size={2}>
           <BookPortrait book={book} />
           <BookRating bookId={book.id!} />
+        </Grid>
+        <Grid size={10}>
+          <BookAbstract title={book.title} abstract={book.abstract} />
+          <BookComments bookTitle={book.title} bookId={book.id!} />
         </Grid>
       </Grid>
     </Section>
